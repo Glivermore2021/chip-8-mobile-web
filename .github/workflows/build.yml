@@ -1,0 +1,34 @@
+name: Build and Deploy CHIP-8 Web Emulator
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Emscripten
+      uses: mymindstorm/setup-emsdk@v12
+      with:
+        version: 3.1.45
+
+    - name: Build WebAssembly
+      run: |
+        mkdir -p build
+        emcc core/chip8.c core/chip8_wrapper.c \
+          -o public/chip8.js \
+          -s WASM=1 \
+          -s EXPORTED_FUNCTIONS='["_init","_load_rom","_cycle","_get_video_buffer","_set_key"]' \
+          -s EXPORTED_RUNTIME_METHODS='["cwrap","getValue","setValue"]' \
+          -s ALLOW_MEMORY_GROWTH=1
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
