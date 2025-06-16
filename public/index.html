@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CHIP-8 Emulator</title>
+  <script src="chip8.js"></script>
+  <style>
+    body { margin: 0; background: black; color: white; font-family: sans-serif; text-align: center; }
+    canvas { width: 100vw; max-width: 400px; image-rendering: pixelated; }
+    .controls button { width: 20vw; height: 10vh; margin: 4px; font-size: 1.5em; }
+  </style>
+</head>
+<body>
+  <h1>CHIP-8</h1>
+  <canvas id="screen" width="64" height="32"></canvas><br>
+  <input type="file" id="romInput">
+  <div class="controls">
+    <button onclick="pressKey(1)">1</button>
+    <button onclick="pressKey(2)">2</button>
+    <button onclick="pressKey(3)">3</button>
+    <button onclick="pressKey(0)">0</button>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
